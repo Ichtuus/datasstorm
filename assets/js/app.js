@@ -6,15 +6,22 @@
  */
 
 // any CSS you require will output into a single css file (app.css in this case)
-require('../css/app.css');
+// require('../css/app.css');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // const $ = require('jquery');
 
-import Vue from 'vue';
-import App from './components/App';
+import Vue from 'vue'
+import App from './components/App'
+import router from './router'
+import 'bootstrap-css-only/css/bootstrap.min.css'
+import 'mdbvue/lib/css/mdb.min.css'
 
 const app = new Vue({
     el: '#app',
-    render: h => h(App)
+    render: h => h(App),
+    router,
 });
+
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
