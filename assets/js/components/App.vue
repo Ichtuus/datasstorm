@@ -5,16 +5,20 @@
             <mdb-navbar-brand href="https://mdbootstrap.com/docs/vue/" target="_blank">DATASMAKER CRM</mdb-navbar-brand>
             <mdb-navbar-toggler>
                 <mdb-navbar-nav right>
-                    <mdb-nav-item href="#!" waves-fixed><mdb-icon fab class="text-black" icon="facebook-square"/></mdb-nav-item>
+                    <router-link to="/login" @click.native="activeItem = 6">
+                        <mdb-nav-item  waves-fixed><mdb-icon fab class="text-black" icon=""/>Login</mdb-nav-item>
+                    </router-link>
                 </mdb-navbar-nav>
             </mdb-navbar-toggler>
         </mdb-navbar>
         <!--/.Navbar-->
         <!-- Sidebar -->
         <div class="sidebar-fixed position-fixed">
-            <a class="logo-wrapper"><img alt="" class="img-fluid" src=""/></a>
+            <a class="logo-wrapper">
+                <img alt="" class="img-fluid" src="../../img/datalogo.png"/>
+            </a>
             <mdb-list-group class="list-group-flush">
-                <router-link to="/dashboard" @click.native="activeItem = 1">
+                <router-link to="/" @click.native="activeItem = 1">
                     <mdb-list-group-item :action="true" :class="activeItem === 1 && 'active'"><mdb-icon icon="chart-pie" class="mr-3"/>Dashboard</mdb-list-group-item>
                 </router-link>
                 <router-link to="/profile" @click.native="activeItem = 2">
@@ -23,11 +27,11 @@
                 <router-link to="/tables"  @click.native="activeItem = 3">
                     <mdb-list-group-item :action="true" :class="activeItem === 3 && 'active'"><mdb-icon icon="table" class="mr-3"/>Tables</mdb-list-group-item>
                 </router-link>
-                <router-link to="/maps" @click.native="activeItem = 4">
-                    <mdb-list-group-item :action="true" :class="activeItem === 4 && 'active'"><mdb-icon icon="map" class="mr-3"/>Maps</mdb-list-group-item>
+                <router-link to="/404" @click.native="activeItem = 4">
+                    <mdb-list-group-item :action="true" :class="activeItem === 4 && 'active'"><mdb-icon icon="exclamation" class="mr-3"/>404</mdb-list-group-item>
                 </router-link>
-                <router-link to="/404" @click.native="activeItem = 5">
-                    <mdb-list-group-item :action="true" :class="activeItem === 5 && 'active'"><mdb-icon icon="exclamation" class="mr-3"/>404</mdb-list-group-item>
+                <router-link to="/users" @click.native="activeItem = 5">
+                    <mdb-list-group-item :action="true" :class="activeItem === 5 && 'active'"><mdb-icon icon="exclamation" class="mr-3"/>Users</mdb-list-group-item>
                 </router-link>
             </mdb-list-group>
         </div>
@@ -37,23 +41,13 @@
                 <router-view></router-view>
             </div>
             <ftr color="primary-color-dark" class="text-center font-small darken-2">
-                <div class="pt-4">
-                    <mdb-btn outline="white" tag="a" href="https://mdbootstrap.com/docs/vue/getting-started/download/" target="_blank">Download MDB <mdb-icon icon="download" class="ml-2"/></mdb-btn>
-                    <mdb-btn outline="white" tag="a" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Start free tutorial <mdb-icon icon="graduation-cap" class="ml-2"/></mdb-btn>
-                </div>
                 <hr class="my4"/>
                 <div class="pb-4">
                     <a href="#"><mdb-icon fab icon="facebook-square" class="mr-3"/></a>
-                    <a href="#"><mdb-icon fab icon="twitter" class="mr-3"/></a>
-                    <a href="#"><mdb-icon fab icon="youtube" class="mr-3"/></a>
-                    <a href="#"><mdb-icon fab icon="google-plus" class="mr-3"/></a>
-                    <a href="#"><mdb-icon fab icon="dribbble" class="mr-3"/></a>
-                    <a href="#"><mdb-icon fab icon="pinterest" class="mr-3"/></a>
                     <a href="#"><mdb-icon fab icon="github" class="mr-3"/></a>
-                    <a href="#"><mdb-icon fab icon="codepen" class="mr-3"/></a>
                 </div>
                 <p class="footer-copyright mb-0 py-3 text-center">
-                    &copy; {{new Date().getFullYear()}} Copyright: <a href="https://mdbootstrap.com/docs/vue/"> MDBootstrap.com </a>
+                        &copy; {{new Date().getFullYear()}} Copyright: <a href="#"> dataschemist.com </a>
                 </p>
             </ftr>
         </main>
