@@ -1,29 +1,26 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: null }
+        user_db_provider:
+            entity:
+                class: App\Entity\User
+                property: apiKey
+    role_hierarchy:
+            ROLE_ADMIN: [ROLE_API]
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            anonymous: true
+        api:
+            pattern: ^/api/
             guard:
                 authenticators:
-                    - App\Security\LoginFormAuthAuthenticator
-            logout:
-                path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+                   - App\Security\TokenAuthenticator
+            provider: user_db_provider
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/, roles: ROLE_API }
+        - { path: ^/admin/, roles: ROLE_ADMIN }
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+           algorithm: bcrypt
+           cost: 12
