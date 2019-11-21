@@ -1,23 +1,68 @@
-<template id="signinTemplate">
-	  <form ref='form' @submit.prevent='handleForm' action="" class='signin-form'>
-			<h2>Signin</h2>
-			<div class="form-group">
-				 <label for="email">Adresse électronique</label>
-				 <input required v-model='user.email' type="email" id='email' placeholder="Adresse électronique">
-			</div>
-			<div class="form-group">
-				 <label for="password">Mot de passe</label>
-				 <input required v-model='user.password' type="password" id='password' placeholder="Mot de passe">
-			</div>
-			<input :disabled='!isFormValid' type="submit" value="Signin">
-	  </form>
- </template>
-
-
+<template>
+    <form v-on:submit.prevent="handleSubmit">
+        <div v-if="error" class="alert alert-danger">
+            {{ error }}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" v-model="email" class="form-control" id="exampleInputEmail1"
+                   aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" v-model="password" class="form-control"
+                   id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">I like cheese</label>
+        </div>
+        <button type="submit" class="btn btn-primary" v-bind:class="{ disabled: isLoading }">Log in</button>
+    </form>
+</template>
 <script>
-export default {
-}
+    import axios from 'axios';
+    export default {
+        data() {
+            return {
+                email: '',
+                password: '',
+                error: '',
+                isLoading: false
+            }
+        },
+        props: ['user'],
+        methods: {
+        handleSubmit() {
+            this.isLoading = true;
+            this.error = '';
+            axios
+                .post('/login', {
+                    email: this.email,
+                    password: this.password
+                }, {
+					headers:{
+						'Content-Type': 'application/json'
+					}
+				})
+                .then(response => {
+                    console.log(response.data);
+                    //this.$emit('user-authenticated', userUri);
+                    //this.email = '';
+                    //this.password = '';
+                }).catch(error => {
+                    if (error.response.data.error) {
+                        this.error = error.response.data.error;
+                    }
+					//  else {
+                    //     this.error = 'Unknown error';
+                    // }
+                }).finally(() => {
+                    this.isLoading = false;
+                })
+            },
+        },
+    }
 </script>
-
-<style lang="css" scoped>
+<style scoped lang="scss">
 </style>
