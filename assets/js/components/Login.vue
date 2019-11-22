@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="handleSubmit">
+    <form v-on:submit.prevent="handleSubmit" class="pad">
         <div v-if="error" class="alert alert-danger">
             {{ error }}
         </div>
@@ -13,25 +13,22 @@
             <input type="password" v-model="password" class="form-control"
                    id="exampleInputPassword1" placeholder="Password">
         </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">I like cheese</label>
-        </div>
         <button type="submit" class="btn btn-primary" v-bind:class="{ disabled: isLoading }">Log in</button>
     </form>
 </template>
 <script>
     import axios from 'axios';
     export default {
+        props: ['username'],
         data() {
             return {
                 email: '',
                 password: '',
                 error: '',
-                isLoading: false
+                isLoading: false,
+                username: this.username
             }
         },
-        props: ['user'],
         methods: {
         handleSubmit() {
             this.isLoading = true;
@@ -47,16 +44,17 @@
 				})
                 .then(response => {
                     console.log(response.data);
+					this.$router.push('/admin/dashboard');
                     //this.$emit('user-authenticated', userUri);
-                    //this.email = '';
-                    //this.password = '';
+                    this.email = '';
+                    this.password = '';
                 }).catch(error => {
                     if (error.response.data.error) {
                         this.error = error.response.data.error;
                     }
-					//  else {
-                    //     this.error = 'Unknown error';
-                    // }
+					 else {
+                        this.error = 'Unknown error';
+                    }
                 }).finally(() => {
                     this.isLoading = false;
                 })
@@ -64,5 +62,8 @@
         },
     }
 </script>
-<style scoped lang="scss">
+<style >
+.pad{
+    padding: 12em;
+}
 </style>

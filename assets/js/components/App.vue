@@ -5,8 +5,9 @@
             <mdb-navbar-brand href="https://mdbootstrap.com/docs/vue/" target="_blank">DATASMAKER CRM</mdb-navbar-brand>
             <mdb-navbar-toggler>
                 <mdb-navbar-nav right>
-                    <router-link to="/login" @click.native="activeItem = 6">
-                        <mdb-nav-item  waves-fixed><mdb-icon fab class="text-black" icon=""/>Login</mdb-nav-item>
+                    <a v-if='user' href="/logout" class="btn btn-warning btn-sm">Log out</a>
+                    <router-link to="/login" @click.native="activeItem = 6" v-else>
+                        <mdb-nav-item  waves-fixed class="btn btn-success btn-sm">Login</mdb-nav-item>
                     </router-link>
                 </mdb-navbar-nav>
             </mdb-navbar-toggler>
@@ -56,7 +57,7 @@
 
 <script>
  import { mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavItem, mdbNavbarNav, mdbNavbarToggler, mdbBtn, mdbIcon, mdbListGroup, mdbListGroupItem, mdbCardBody, mdbFooter, waves } from 'mdbvue'
-
+import Login from '../components/Login'
     export default {
         components: {
             mdbContainer,
@@ -71,14 +72,24 @@
             mdbIcon,
             mdbCardBody,
             'ftr': mdbFooter,
+            Login
         },
+        props: ['entrypoint'],
         data () {
             return {
-                activeItem: 1
+                activeItem: 1,
+                user: null
+
             }
         },
         beforeMount () {
             this.activeItem = this.$route.matched[0].props.default.page
+        },
+        mounted() {
+            if (window.user) {
+                this.user = window.user;
+                console.log(this.user);
+            }
         },
         mixins: [waves]
 
@@ -146,4 +157,5 @@
   color: #2196f3 !important;
   font-weight: bolder;
 }
+
 </style>

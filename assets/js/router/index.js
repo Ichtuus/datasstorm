@@ -13,10 +13,16 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
-      name: '',
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      props: { page: 6},
+    },
+    {
+      path: 'admin/dashboard',
+      name: 'Dashboard',
       component: Dashboard,
-      props: { page: 1 },
+      props: { page: 1},
       alias: '/'
     },
     {
@@ -42,12 +48,6 @@ export default new Router({
       name: 'Users',
       props: { page: 5 },
       component: Users
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      props: { page: 6 },
-      component: Login
     },
     {
       path: '*',

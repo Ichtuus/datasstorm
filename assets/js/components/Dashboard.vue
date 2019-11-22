@@ -1,5 +1,8 @@
 <template>
   <section id="dashboard">
+        <span v-if="user">
+            <h5>Welcome {{ user.username }}</h5>
+        </span>
     <mdb-card class="mb-4">
       <mdb-card-body class="d-sm-flex justify-content-between">
         <h4 class="mb-sm-0 pt-2">
@@ -259,12 +262,7 @@
           <mdb-card>
             <mdb-card-header>Google Map</mdb-card-header>
             <mdb-card-body>
-              <GmapMap
-                :center="{lat:10, lng:10}"
-                :zoom="7"
-                style="width: 100%; height: 300px"
-              >
-              </GmapMap>
+
             </mdb-card-body>
           </mdb-card>
         </mdb-col>
@@ -538,7 +536,6 @@
 
 <script>
 import { mdbRow, mdbCol, mdbBtn, mdbCard, mdbCardBody, mdbCardHeader, mdbCardText, mdbIcon, mdbTbl, mdbBarChart, mdbPieChart, mdbLineChart, mdbRadarChart, mdbDoughnutChart, mdbListGroup, mdbListGroupItem, mdbBadge, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter } from 'mdbvue'
-
 export default {
   name: 'Dashboard',
   components: {
@@ -563,7 +560,7 @@ export default {
     mdbModalHeader,
     mdbModalTitle,
     mdbModalBody,
-    mdbModalFooter
+    mdbModalFooter,
   },
   data () {
     return {
@@ -581,6 +578,7 @@ export default {
       showFluidModalLeft: false,
       showFluidModalTop: false,
       showFluidModalBottom: false,
+      user: null,
       barChartData: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
         datasets: [
@@ -715,6 +713,11 @@ export default {
         maintainAspectRatio: false
       }
     }
+  },
+  mounted() {
+      if (window.user) {
+          this.user = window.user;
+      }
   }
 }
 </script>

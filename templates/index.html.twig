@@ -2,7 +2,10 @@
 
 {% block title %}DatasStorm{% endblock %}
 {% block body %}
-<div class="wrapper" id="app">
-    <app></app>
-</div>
+    <script>
+        window.user = {{ user|raw }};
+    </script>
+    <div class="wrapper" id="app">
+        <app></app>
+    </div>
 {% endblock %}
