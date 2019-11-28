@@ -1,8 +1,8 @@
 <template lang="html">
     <mdb-col md="12">
         <mdb-card-body>
-            <h3 class="mt-5 text-left"><strong>Basic examples</strong></h3>
-            <p>Using the most basic table markup, here’s how .table-based tables look in Bootstrap. All table styles are inherited in Bootstrap 4, meaning any nested tables will be styled in the same manner as the parent.</p>
+            <h3 class="mt-5 text-left"><strong>Users list</strong></h3>
+            <p>list of all user with online status and role</p>
             <mdb-tbl>
                 <!-- {{users}} -->
                 <thead>
@@ -10,6 +10,8 @@
                         <th>#</th>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>Status</th>
+                        <th>Role</th>
                     </tr>
                 </thead>
                 <tbody>

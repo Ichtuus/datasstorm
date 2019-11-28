@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
@@ -14,37 +14,40 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /** EntityManager $manager */
+    private $manager;
+
+    /** UserPasswordEncoderInterface $encoder */
+    private $encoder;
+
+    /**
+     * UsersRepository constructor.
+     * @param RegistryInterface $registry
+     * @param UserPasswordEncoderInterface $encoder
+     */
+    public function __construct(ManagerRegistry $registry, UserPasswordEncoderInterface $encoder)
     {
         parent::__construct($registry, User::class);
+        $this->manager = $registry->getManager();
+        $this->encoder = $encoder;
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Create a new user
+     * @param $data
+     * @return User
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function createNewUser($data)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $user = new User();
+        $user->setEmail($data['email'])
+            ->setUsername($data['username'])
+            // ->setRoles($data['role'])
+            ->setPassword($this->encoder->encodePassword($user, $data['password']));
+        $this->manager->persist($user);
+        $this->manager->flush();
+        return $user;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Security;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login", methods={"POST"})
+     * @Route("/login", name="login", methods={"POST"})
      */
     public function login(Security $security)
     {
