@@ -4,32 +4,19 @@
             <h3 class="mt-5 text-left"><strong>Basic examples</strong></h3>
             <p>Using the most basic table markup, here’s how .table-based tables look in Bootstrap. All table styles are inherited in Bootstrap 4, meaning any nested tables will be styled in the same manner as the parent.</p>
             <mdb-tbl>
+                <!-- {{users}} -->
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
                         <th>Username</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
+                    <tr v-for="(elem, i) in users">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{elem.username}}</td>
+                        <td>{{elem.email}}</td>
                     </tr>
                 </tbody>
             </mdb-tbl>
@@ -39,7 +26,7 @@
 
 <script>
     import { mdbRow, mdbCol, mdbCard, mdbView, mdbCardBody, mdbTbl } from 'mdbvue'
-
+    import axios from 'axios';
     export default {
         name: 'Tables',
         components: {
@@ -51,7 +38,25 @@
             mdbTbl
         },
         data () {
-            return {}
+            return {
+                users: null
+            }
+        },
+        created () {
+            axios
+            .get('/api/users.json', {
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response.data);
+                this.users = response.data
+            })
+            .catch(e => {
+                console.log(e);
+                this.errors = e
+            })
         }
     }
 </script>

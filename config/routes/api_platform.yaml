@@ -2,3 +2,7 @@ api_platform:
     resource: .
     type: api_platform
     prefix: /api
+    # The list of enabled formats. The first one will be the default.
+    # formats:
+    #     json: ['application/json']
+    #     jsonld: ['application/ld+json']

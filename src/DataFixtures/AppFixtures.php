@@ -13,8 +13,10 @@ class AppFixtures extends Fixture
 
         $user = new User();
         $user->setApiKey('test_api_key');
-        $user->setUsername('test');
-        $user->setPassword('test');
+        $user->setUsername('john');
+        $user->setEmail('jo@ogmail.fr');
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setPassword('$2y$13$xRi8GRMATcvcCP4dh3f/duboTMB8BR/T9aub8qEo8QM8leXDrInKO');
         $manager->persist($user);
 
         $manager->flush();

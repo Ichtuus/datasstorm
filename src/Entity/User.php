@@ -18,8 +18,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @UniqueEntity(fields={"username"})
  * @UniqueEntity(fields={"email"})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields="email", message="Cet email est déjà enregistré en base.")
- * @UniqueEntity(fields="username", message="Cet identifiant est déjà enregistré en base")
  */
 class User implements UserInterface, \Serializable
 {
@@ -57,6 +55,7 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
 
     /*
      * Get id
@@ -135,6 +134,7 @@ class User implements UserInterface, \Serializable
         $this->roles = $roles;
         return $this;
     }
+
 
     /**
      * A visual identifier that represents this user.
