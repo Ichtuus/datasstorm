@@ -19,7 +19,7 @@ export default new Router({
       props: { page: 6},
     },
     {
-      path: 'admin/dashboard',
+      path: 'dashboard',
       name: 'Dashboard',
       component: Dashboard,
       props: { page: 1},

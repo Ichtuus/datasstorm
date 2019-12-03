@@ -37,12 +37,5 @@ class AuthController extends AbstractController
         $user = $this->userRepository->createNewUser($newUserData);
         return new Response(sprintf('User %s successfully created', $user->getUsername()));
     }
-    /**
-     * api route redirects
-     * @return Response
-     */
-    public function api()
-    {
-        return new Response(sprintf("Logged in as %s", $this->getUser()->getUsername()));
-    }
+
 }

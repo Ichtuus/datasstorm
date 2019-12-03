@@ -18,6 +18,7 @@
             <a class="logo-wrapper">
                 <img alt="" class="img-fluid" src="../../img/datalogo.png"/>
             </a>
+            {{token}}
             <mdb-list-group class="list-group-flush">
                 <router-link to="/" @click.native="activeItem = 1">
                     <mdb-list-group-item :action="true" :class="activeItem === 1 && 'active'"><mdb-icon icon="chart-pie" class="mr-3"/>Dashboard</mdb-list-group-item>
@@ -74,11 +75,12 @@ import Login from '../components/Login'
             'ftr': mdbFooter,
             Login
         },
-        props: ['entrypoint'],
+        props: ['token'],
         data () {
             return {
                 activeItem: 1,
-                user: null
+                user: null,
+                token:this.token
 
             }
         },
@@ -89,6 +91,7 @@ import Login from '../components/Login'
             if (window.user) {
                 this.user = window.user;
                 console.log(this.user);
+
             }
         },
         mixins: [waves]

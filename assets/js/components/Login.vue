@@ -19,14 +19,15 @@
 <script>
     import axios from 'axios';
     export default {
-        props: ['username'],
+        props: ['token'],
         data() {
             return {
                 email: '',
                 password: '',
                 error: '',
                 isLoading: false,
-                username: this.username
+                username: this.username,
+                token: null
             }
         },
         methods: {
@@ -43,8 +44,9 @@
 					}
 				})
                 .then(response => {
-                    console.log(response.data);
-					this.$router.push('/admin/dashboard');
+                    this.token = response.data.token
+                    console.log(this.token);
+					this.$router.push('./');
                     //this.$emit('user-authenticated', userUri);
                     this.email = '';
                     this.password = '';
