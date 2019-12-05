@@ -2,7 +2,7 @@
     <div class="flexible-content">
         <!--Navbar-->
         <mdb-navbar class="flexible-navbar white" light position="top" scrolling>
-            <mdb-navbar-brand href="https://mdbootstrap.com/docs/vue/" target="_blank">DATASMAKER CRM</mdb-navbar-brand>
+            <mdb-navbar-brand target="_blank">DATASMAKER CRM</mdb-navbar-brand>
             <mdb-navbar-toggler>
                 <mdb-navbar-nav right>
                     <a v-if='user' href="/logout" class="btn btn-warning btn-sm">Log out</a>
@@ -18,7 +18,6 @@
             <a class="logo-wrapper">
                 <img alt="" class="img-fluid" src="../../img/datalogo.png"/>
             </a>
-            {{token}}
             <mdb-list-group class="list-group-flush">
                 <router-link to="/" @click.native="activeItem = 1">
                     <mdb-list-group-item :action="true" :class="activeItem === 1 && 'active'"><mdb-icon icon="chart-pie" class="mr-3"/>Dashboard</mdb-list-group-item>
@@ -57,8 +56,9 @@
 </template>
 
 <script>
- import { mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavItem, mdbNavbarNav, mdbNavbarToggler, mdbBtn, mdbIcon, mdbListGroup, mdbListGroupItem, mdbCardBody, mdbFooter, waves } from 'mdbvue'
+import { mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavItem, mdbNavbarNav, mdbNavbarToggler, mdbBtn, mdbIcon, mdbListGroup, mdbListGroupItem, mdbCardBody, mdbFooter, waves } from 'mdbvue'
 import Login from '../components/Login'
+import { mapActions } from 'vuex';
     export default {
         components: {
             mdbContainer,
@@ -75,12 +75,10 @@ import Login from '../components/Login'
             'ftr': mdbFooter,
             Login
         },
-        props: ['token'],
         data () {
             return {
                 activeItem: 1,
-                user: null,
-                token:this.token
+                user: null
 
             }
         },
@@ -94,8 +92,18 @@ import Login from '../components/Login'
 
             }
         },
+        methods: {
+            ...mapActions([
+                'fetchAccessToken'
+            ]),
+            logout (){
+                localStorage.removeItem('accessToken');
+            }
+        },
+        created() {
+            this.fetchAccessToken();
+        },
         mixins: [waves]
-
     }
 </script>
 
