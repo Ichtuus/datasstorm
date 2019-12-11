@@ -5,9 +5,9 @@
             <mdb-navbar-brand target="_blank">DATASMAKER CRM</mdb-navbar-brand>
             <mdb-navbar-toggler>
                 <mdb-navbar-nav right>
-                    <a v-if='user' href="/logout" class="btn btn-warning btn-sm">Log out</a>
-                    <router-link to="/login" @click.native="activeItem = 6" v-else>
-                        <mdb-nav-item  waves-fixed class="btn btn-success btn-sm">Login</mdb-nav-item>
+                    <router-link to="/login" @click.native="activeItem = 6">
+                        <mdb-nav-item v-on:click="logout" v-if="accessToken" class="btn btn-warning btn-sm">Logout</mdb-nav-item>
+                        <mdb-nav-item waves-fixed class="btn btn-success btn-sm" v-else>Login</mdb-nav-item>
                     </router-link>
                 </mdb-navbar-nav>
             </mdb-navbar-toggler>
@@ -18,7 +18,7 @@
             <a class="logo-wrapper">
                 <img alt="" class="img-fluid" src="../../img/datalogo.png"/>
             </a>
-            <mdb-list-group class="list-group-flush">
+            <mdb-list-group class="list-group-flush" v-if="accessToken">
                 <router-link to="/" @click.native="activeItem = 1">
                     <mdb-list-group-item :action="true" :class="activeItem === 1 && 'active'"><mdb-icon icon="chart-pie" class="mr-3"/>Dashboard</mdb-list-group-item>
                 </router-link>
@@ -58,7 +58,8 @@
 <script>
 import { mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavItem, mdbNavbarNav, mdbNavbarToggler, mdbBtn, mdbIcon, mdbListGroup, mdbListGroupItem, mdbCardBody, mdbFooter, waves } from 'mdbvue'
 import Login from '../components/Login'
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import axios from 'axios'
     export default {
         components: {
             mdbContainer,
@@ -82,6 +83,14 @@ import { mapActions } from 'vuex';
 
             }
         },
+        computed: {
+            ...mapState([
+                'accessToken'
+            ])
+        },
+        created() {
+            this.fetchAccessToken();
+        },
         beforeMount () {
             this.activeItem = this.$route.matched[0].props.default.page
         },
@@ -94,14 +103,13 @@ import { mapActions } from 'vuex';
         },
         methods: {
             ...mapActions([
-                'fetchAccessToken'
+                'fetchAccessToken',
+                'deleteAccessToken'
             ]),
             logout (){
-                localStorage.removeItem('accessToken');
+                console.log('logout');
+                this.deleteAccessToken();
             }
-        },
-        created() {
-            this.fetchAccessToken();
         },
         mixins: [waves]
     }

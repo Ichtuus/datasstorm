@@ -19,7 +19,6 @@ import 'bootstrap-css-only/css/bootstrap.min.css'
 import 'mdbvue/lib/css/mdb.min.css'
 import store from './store'
 
-
 Vue.config.productionTip = false
 
 const app = new Vue({

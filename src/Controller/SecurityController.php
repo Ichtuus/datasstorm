@@ -8,32 +8,27 @@ use Symfony\Component\Security\Core\Security;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login", methods={"POST"})
+     * @Route("/login", name="login", methods={"POST"})
      */
-    public function login(Security $security)
+    public function login(Security $security, Request $request)
     {
-        $user = $security->getUser();
-
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->json([
-                'error' => 'Invalid login request: check that the Content-Type header is "application/json".'
-            ], 400);
-        }
-
+die('test');
+        // $user = $security->getUser();
+        //
+        // if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+        //     return $this->json([
+        //         'error' => 'Invalid login request: check that the Content-Type header is "application/json".'
+        //     ], 400);
+        // }
+        //
+        // return $this->json([
+        //     'userid' => $user ? $user->getId() : null,
+        //     'username' => $user ? $user->getUsername() : null
+        // ]);
+        $user = $this->getUser();
         return $this->json([
-            'userid' => $user ? $user->getId() : null,
-            'username' => $user ? $user->getUsername() : null
-        ]);
-    }
-
-
-    /**
-    * @Route("/admin/dashboard")
-    */
-    public function administration(Security $security){
-        return $this->json([
-            'userid' => $user ? $user->getId() : null,
-            'username' => $user ? $user->getUsername() : null
+            'result' => true,
+            'username' => $user->getUsername(),
         ]);
     }
 

@@ -1,10 +1,16 @@
 <template>
     <form @submit.prevent="loginSubmit" action="/login" method="post" class="pad" ref="form">
+        <loading :active.sync="isLoading" :is-full-page="fullPage"></loading>
         <div v-if="loginError" class="alert alert-danger">
             {{ loginError }}
         </div>
         <div v-if="accessToken" class="alert alert-success">
             login Successful
+        </div>
+        <div class="form-group">
+            <label for="exampleInputUsername">username</label>
+            <input type="text" v-model="username" class="form-control" id="exampleInputUsername"
+                   aria-describedby="usernameHelp" placeholder="Enter username">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
@@ -22,14 +28,21 @@
 <script>
     import axios from 'axios';
     import { mapState, mapActions } from 'vuex';
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
         data() {
             return {
+                username: '',
                 email: '',
                 password: '',
                 error: '',
-                isLoading: false
+                isLoading: false,
+                fullPage: true
             }
+        },
+        components: {
+            Loading
         },
         computed: {
             ...mapState([
@@ -43,7 +56,13 @@
                 'doLogin'
             ]),
             loginSubmit() {
+                this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false
+                    this.$router.push('/');
+                }, 3000)
                 this.doLogin({
+                    username: this.username,
                     email: this.email,
                     password: this.password
                 });

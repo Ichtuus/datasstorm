@@ -1,5 +1,6 @@
 <template lang="html">
     <mdb-col md="12">
+        <loading :active.sync="isLoading" :is-full-page="fullPage"></loading>
         <mdb-card-body>
             <h3 class="mt-5 text-left"><strong>Users list</strong></h3>
             <p>list of all user with online status and role</p>
@@ -10,8 +11,8 @@
                         <th>#</th>
                         <th>Username</th>
                         <th>Email</th>
-                        <th>Status</th>
                         <th>Role</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,7 +29,10 @@
 
 <script>
     import { mdbRow, mdbCol, mdbCard, mdbView, mdbCardBody, mdbTbl } from 'mdbvue'
+    import { mapState } from 'vuex';
     import axios from 'axios';
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
         name: 'Tables',
         components: {
@@ -37,21 +41,26 @@
             mdbCard,
             mdbView,
             mdbCardBody,
-            mdbTbl
+            mdbTbl,
+            Loading
         },
         data () {
             return {
-                users: null
+                users: null,
+                isLoading: false,
+                fullPage: true
             }
         },
         created () {
+            this.isLoading = true;
             axios
             .get('/api/users.json', {
                 headers:{
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem("accessToken") + ' '
                 }
             })
             .then(response => {
+                this.isLoading = false;
                 console.log(response.data);
                 this.users = response.data
             })
@@ -59,6 +68,11 @@
                 console.log(e);
                 this.errors = e
             })
+        },
+        computed: {
+            ...mapState([
+                'accessToken'
+            ])
         }
     }
 </script>

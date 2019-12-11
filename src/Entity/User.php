@@ -56,6 +56,11 @@ class User implements UserInterface, \Serializable
      */
     private $roles = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $token;
+
 
     /*
      * Get id
@@ -132,6 +137,17 @@ class User implements UserInterface, \Serializable
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
         return $this;
     }
 

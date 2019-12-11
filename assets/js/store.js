@@ -8,7 +8,7 @@ export default new Vuex.Store({
     state: {
         loggingIn: false,
         loginError: null,
-        accessToken: null
+        accessToken: null,
     },
     mutations: {
         loginStart: state => state.loggingIn = true,
@@ -26,14 +26,15 @@ export default new Vuex.Store({
             axios.post('/login', {
               ...loginData
             },
-               {
-					headers:{
-						'Content-Type': 'application/json'
-					}
+            {
+				headers:{
+					'Content-Type': 'application/json'
+				}
             })
             .then(response => {
                 console.log(response);
                 localStorage.setItem('accessToken', response.data.token);
+                localStorage.setItem('username', response.data.email);
                 commit('loginStop', null)
                 commit('updateAccessToken', response.data.token);
             })
@@ -44,6 +45,9 @@ export default new Vuex.Store({
         },
         fetchAccessToken({commit}) {
             commit('updateAccessToken', localStorage.getItem('accessToken'));
+        },
+        deleteAccessToken({commit}) {
+            commit('updateAccessToken', localStorage.removeItem('accessToken'));
         }
     }
 })

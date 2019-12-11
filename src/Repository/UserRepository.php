@@ -6,13 +6,14 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     /** EntityManager $manager */
     private $manager;
@@ -49,5 +50,18 @@ class UserRepository extends ServiceEntityRepository
         $this->manager->persist($user);
         $this->manager->flush();
         return $user;
+    }
+
+    public function loadUserByUsername($usernameOrEmail)
+    {
+        return $this->createQuery(
+                'SELECT u
+                FROM App\Entity\User u
+                WHERE u.username = :query
+                OR u.email = :query'
+            )
+            ->setParameter('query', $usernameOrEmail)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

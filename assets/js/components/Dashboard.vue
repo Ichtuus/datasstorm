@@ -1,7 +1,7 @@
 <template>
-    <section id="dashboard">
-        <span v-if="user">
-            <h5>Welcome {{ user.username }}</h5>
+    <section id="dashboard" v-if="accessToken">
+        <span >
+            <h5>Welcome </h5>
         </span>
         <mdb-card class="mb-4">
             <mdb-card-body class="d-sm-flex justify-content-between">
@@ -532,10 +532,15 @@
             </mdb-row>
         </section>
     </section>
+    <section v-else>
+        test
+    </section>
+
 </template>
 
 <script>
 import { mdbRow, mdbCol, mdbBtn, mdbCard, mdbCardBody, mdbCardHeader, mdbCardText, mdbIcon, mdbTbl, mdbBarChart, mdbPieChart, mdbLineChart, mdbRadarChart, mdbDoughnutChart, mdbListGroup, mdbListGroupItem, mdbBadge, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter } from 'mdbvue'
+import { mapState, mapActions } from 'vuex';
 export default {
     name: 'Dashboard',
     components: {
@@ -718,6 +723,11 @@ export default {
         if (window.user) {
             this.user = window.user;
         }
+    },
+    computed: {
+        ...mapState([
+            'accessToken'
+        ])
     }
 }
 </script>

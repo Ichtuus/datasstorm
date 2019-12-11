@@ -9,6 +9,8 @@
     </head>
     <body>
         {% block body %}
+        {{ app.user.username }}
+        {{dump(user)}}
         <script>
             window.user = {{ user|raw }};
         </script>
